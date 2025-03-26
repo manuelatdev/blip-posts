@@ -1,0 +1,31 @@
+
+Esquema de entidad de dominio y entidad de JPA.
+
+Me generaba confusión que algo que está en el punto más externo del esquema, que es un punto de contacto con las
+bases de datos, y que es una implementación de una tecnología concreta, es decir, las entidades de JPA, se llamen
+precisamente entidades, que en el contexto del dominio es la representación más abstracta de las entidades y reglas
+del negocio.
+
+Dominio:                        Infraestructura:
+Blip                            BlipJpaEntity
+├── blipId                      ├── blipId
+├── userId                      ├── userId
+├── content (BlipContent)       ├── content (BlipContentJpa)
+│   └── value                   │   └── value
+└── timestamp                   └── timestamp
+
+Conversión en BlipRepositoryImpl:
+Blip -> BlipJpaEntity (usando BlipContent -> BlipContentJpa)
+BlipJpaEntity -> Blip (usando BlipContentJpa -> BlipContent)
+
+Dominio:                         Aplicación:                Infraestructura:
+Blip  ----------------------->  CreateBlipUseCase  ----->  BlipRepository (interfaz)
+  (blipId, userId, content, timestamp)       |                |
+                                             |                |
+                                             v                v
+                                          BlipRepositoryImpl -----> JpaBlipRepository
+                                             |                         (persiste BlipJpaEntity)
+                                             |                         |
+                                             v                         v
+                                          BlipJpaEntity <------------ H2
+                                          (blipId, userId, content, timestamp)

@@ -1,0 +1,21 @@
+# Archivos de compilación de Spring Boot
+target/
+*.jar
+*.war
+
+# Archivos de IntelliJ
+.idea/
+*.iml
+
+# Archivos de configuración sensible
+src/main/resources/application.properties
+src/main/resources/application.yml
+
+# Logs
+*.log
+
+# Maven Wrapper (si usas Maven, mantenlo; si no, puedes quitarlo)
+!.mvn/wrapper/maven-wrapper.jar
+
+# Archivos de base de datos
+data/
